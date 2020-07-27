@@ -1,5 +1,3 @@
-<%@ page import="javax.swing.*" %>
-<%@ page import="model.MemberBeans" %>
 <%@ page import="model.MemberDAO" %><%--
   Created by IntelliJ IDEA.
   User: joo
@@ -26,8 +24,10 @@
 </jsp:useBean>
 <%
     mBean.setField(textField);
-    MemberDAO memberDAO = new MemberDAO();
-    memberDAO.insertMember(mBean);
+    MemberDAO mDAO = new MemberDAO();
+    mDAO.insertMember(mBean);
+
+    response.sendRedirect("MemberList.jsp");
 %>
 </body>
 </html>

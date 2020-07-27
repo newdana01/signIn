@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class MemberDAO {
     String driver = "com.mysql.jdbc.Driver";
@@ -29,12 +30,25 @@ public class MemberDAO {
         }
     }
 
-    public void insertMember(MemberBeans mBean){
+    public  void useDatabase(){
         try{
-            getCon();
             pstmt = con.prepareStatement("use sign_up");
             pstmt.execute();
             pstmt.clearParameters();
+        }catch (Exception e1){
+            e1.printStackTrace();
+            try{
+                if(con!=null) con.close();
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+    }
+
+    public void insertMember(MemberBeans mBean){ //회원가입 시 입력된 정보 insert
+        try{
+            getCon();
+            useDatabase();
             String sql = "INSERT INTO db_member VALUES (?,?,?,?,?,?,?,?)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, mBean.getId());
@@ -58,5 +72,76 @@ public class MemberDAO {
                 e2.printStackTrace();
             }
         }
+    }
+
+    public ArrayList<MemberBeans> selectAll(){ //전체 회원의 정보 조회
+        ArrayList<MemberBeans> list = new ArrayList<>();
+
+        try{
+            getCon();
+            useDatabase();
+            String sql = "SELECT * FROM db_member";
+            pstmt = con.prepareStatement(sql);
+            res = pstmt.executeQuery();
+
+            while (res.next()){
+                MemberBeans mBeans = new MemberBeans();
+
+                mBeans.setId(res.getString(1));
+                mBeans.setEmail(res.getString(2));
+                mBeans.setTel(res.getString(3));
+                mBeans.setField(res.getString(4));
+                mBeans.setJob(res.getString(5));
+                mBeans.setAge(res.getString(6));
+                mBeans.setInfo(res.getString(7));
+
+                list.add(mBeans);
+            }
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }finally {
+            try{
+                if (res!=null) res.close();
+                if(pstmt!=null)pstmt.close();
+                if(con!=null) con.close();
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+        return list;
+    }
+
+    public MemberBeans selectMember(String id){ //특정 아이디를 가진 회원의 정보 조회
+        MemberBeans mBeans = new MemberBeans();
+
+        try{
+            getCon();
+            useDatabase();
+            String sql = "SELECT * FROM db_member WHERE id =?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,id);
+            res = pstmt.executeQuery();
+
+            if(res.next()){
+                mBeans.setId(res.getString(1));
+                mBeans.setEmail(res.getString(2));
+                mBeans.setTel(res.getString(3));
+                mBeans.setField(res.getString(4));
+                mBeans.setJob(res.getString(5));
+                mBeans.setAge(res.getString(6));
+                mBeans.setInfo(res.getString(7));
+            }
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }finally {
+            try{
+                if (res!=null) res.close();
+                if(pstmt!=null)pstmt.close();
+                if(con!=null) con.close();
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+        return mBeans;
     }
 }
