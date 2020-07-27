@@ -88,12 +88,12 @@ public class MemberDAO {
                 MemberBeans mBeans = new MemberBeans();
 
                 mBeans.setId(res.getString(1));
-                mBeans.setEmail(res.getString(2));
-                mBeans.setTel(res.getString(3));
-                mBeans.setField(res.getString(4));
-                mBeans.setJob(res.getString(5));
-                mBeans.setAge(res.getString(6));
-                mBeans.setInfo(res.getString(7));
+                mBeans.setEmail(res.getString(3));
+                mBeans.setTel(res.getString(4));
+                mBeans.setField(res.getString(5));
+                mBeans.setJob(res.getString(6));
+                mBeans.setAge(res.getString(7));
+                mBeans.setInfo(res.getString(8));
 
                 list.add(mBeans);
             }
@@ -124,12 +124,12 @@ public class MemberDAO {
 
             if(res.next()){
                 mBeans.setId(res.getString(1));
-                mBeans.setEmail(res.getString(2));
-                mBeans.setTel(res.getString(3));
-                mBeans.setField(res.getString(4));
-                mBeans.setJob(res.getString(5));
-                mBeans.setAge(res.getString(6));
-                mBeans.setInfo(res.getString(7));
+                mBeans.setEmail(res.getString(3));
+                mBeans.setTel(res.getString(4));
+                mBeans.setField(res.getString(5));
+                mBeans.setJob(res.getString(6));
+                mBeans.setAge(res.getString(7));
+                mBeans.setInfo(res.getString(8));
             }
         }catch (Exception e1){
             e1.printStackTrace();
@@ -143,5 +143,33 @@ public class MemberDAO {
             }
         }
         return mBeans;
+    }
+
+    public String getPass(String id){ //특정 아이디를 가진 회원의 정보 조회
+        String pass = "";
+
+        try{
+            getCon();
+            useDatabase();
+            String sql = "SELECT pass1 FROM db_member WHERE id =?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,id);
+            res = pstmt.executeQuery();
+
+            if(res.next()){
+                pass = res.getString("pass1");
+            }
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }finally {
+            try{
+                if (res!=null) res.close();
+                if(pstmt!=null)pstmt.close();
+                if(con!=null) con.close();
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+        return pass;
     }
 }

@@ -25,8 +25,8 @@
   </head>
   <body>
   <h2 align="center">회원가입</h2>
-  <form action="SignUpProc.jsp" method="post">
     <table width="450" align="center" border="1">
+      <form action="SignUpProc.jsp" method="post">
       <tr height="50">
         <td width="100" align="center">아이디</td>
         <td width="100" align="center"><input type="text" name="id" size="30" placeholder="아이디 입력"></td>
@@ -85,13 +85,12 @@
       <tr height="50">
         <td width="100" align="center" colspan="2">
           <input type="submit" value="회원가입">
-          <input type="reset" value="취소">
+          <input type="reset" value="취소"></form>
+          <button onclick="location.href='MemberList.jsp'">회원정보 조회</button>
         </td>
       </tr>
     </table>
-  </form>
   </body>
   </html>
-
   </body>
 </html>

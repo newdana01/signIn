@@ -43,6 +43,14 @@
         <td align="center" width="150">정보</td>
         <td align="center" width="150"><%=mBeans.getInfo()%></td>
     </tr>
+    <tr height="50">
+        <td align="center" colspan="2">
+            <button onclick="location.href='MemberUpdateForm.jsp?id=<%=mBeans.getId()%>'">정보수정</button>
+            <button onclick="location.href='MemberDeleteForm.jsp?id=<%=mBeans.getId()%>'">회원삭제</button>
+            <button onclick="location.href='MemberList.jsp'">목록보기</button>
+            <button onclick="location.href='index.jsp'">회원가입</button>
+        </td>
+    </tr>
 </table>
 </body>
 </html>
