@@ -1,25 +1,24 @@
 package model;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class MemberDAO {
-    String driver = "com.mysql.jdbc.Driver";
-    String url = "jdbc:mysql://localhost:3306";
-    String user = "root";
-    String pass ="1234";
-
+    DataSource dataSource;
     Connection con;
     PreparedStatement pstmt;
     ResultSet res;
 
     public void getCon(){
         try{
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, user, pass);
+           Context context = new InitialContext();
+           dataSource = (DataSource) context.lookup("java:comp/env/jdbc/mysqlDB");
+           con = dataSource.getConnection();
         }catch (Exception e1){
             e1.printStackTrace();
             try{
