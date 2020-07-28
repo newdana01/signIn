@@ -1,32 +1,34 @@
 <%@ page import="model.MemberDAO" %><%--
   Created by IntelliJ IDEA.
   User: joo
-  Date: 2020-07-27
-  Time: 오후 4:57
+  Date: 2020-07-28
+  Time: 오전 11:55
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <title>Title</title>
 </head>
 <body>
 <%
     request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="mbean" class="model.MemberBeans">
-    <jsp:setProperty name="mbean" property="*"/>
+<jsp:useBean id="mBean" class="model.MemberBeans">
+    <jsp:setProperty name="mBean" property="*"/>
 </jsp:useBean>
 <%
     MemberDAO mDAO = new MemberDAO();
-    String pass = mDAO.getPass(mbean.getId());
+    //String 타입으로 저장되어있는 패스워드를 가져옴
+    String pass = mDAO.getPass(mBean.getId());
 
-    if(mbean.getPw1().equals(pass)){
-        mDAO.updateMember(mbean);
+    if(mBean.getPw1().equals(pass)){
+        mDAO.deleteMember(mBean.getId());
         response.sendRedirect("MemberList.jsp");
-    }else {
+    }else{
 %>
 <script type="text/javascript">
-    alert("비밀번호가 맞지 않습니다. 다시 확인해주세요");
+    alert("패스워드가 맞지 않습니다. 다시 확인해주세요.");
     history.back(-1);
 </script>
 <%

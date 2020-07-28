@@ -32,7 +32,7 @@
     %>
     <tr height="50">
         <td align="center" width="150">
-            <a href="MemberInfo.jsp?id=<%=mBeans.getId()%>   ">
+            <a href="MemberInfo.jsp?id=<%=mBeans.getId()%>">
                 <%=mBeans.getId()%></a>
         </td>
         <td align="center" width="150"><%=mBeans.getEmail()%></td>

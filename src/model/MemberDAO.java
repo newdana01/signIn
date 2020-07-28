@@ -46,9 +46,9 @@ public class MemberDAO {
     }
 
     public void insertMember(MemberBeans mBean){ //회원가입 시 입력된 정보 insert
+        getCon();
+        useDatabase();
         try{
-            getCon();
-            useDatabase();
             String sql = "INSERT INTO db_member VALUES (?,?,?,?,?,?,?,?)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, mBean.getId());
@@ -76,10 +76,10 @@ public class MemberDAO {
 
     public ArrayList<MemberBeans> selectAll(){ //전체 회원의 정보 조회
         ArrayList<MemberBeans> list = new ArrayList<>();
+        getCon();
+        useDatabase();
 
         try{
-            getCon();
-            useDatabase();
             String sql = "SELECT * FROM db_member";
             pstmt = con.prepareStatement(sql);
             res = pstmt.executeQuery();
@@ -113,10 +113,10 @@ public class MemberDAO {
 
     public MemberBeans selectMember(String id){ //특정 아이디를 가진 회원의 정보 조회
         MemberBeans mBeans = new MemberBeans();
+        getCon();
+        useDatabase();
 
         try{
-            getCon();
-            useDatabase();
             String sql = "SELECT * FROM db_member WHERE id =?";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1,id);
@@ -147,10 +147,10 @@ public class MemberDAO {
 
     public String getPass(String id){ //특정 아이디를 가진 회원의 정보 조회
         String pass = "";
+        getCon();
+        useDatabase();
 
         try{
-            getCon();
-            useDatabase();
             String sql = "SELECT pass1 FROM db_member WHERE id =?";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1,id);
@@ -171,5 +171,53 @@ public class MemberDAO {
             }
         }
         return pass;
+    }
+
+    public void updateMember(MemberBeans beans){ //특정 아이디를 가진 회원의 정보 수정
+        getCon();
+        useDatabase();
+
+        try{
+            getCon();
+            useDatabase();
+            String sql = "UPDATE db_member SET email=?, tel=? WHERE id=?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,beans.getEmail());
+            pstmt.setString(2,beans.getTel());
+            pstmt.setString(3, beans.getId());
+            pstmt.executeUpdate();
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }finally {
+            try{
+                if(pstmt!=null)pstmt.close();
+                if(con!=null) con.close();
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+    }
+
+    public void deleteMember(String id){ //특정 아이디를 가진 회원의 정보 삭제
+        getCon();
+        useDatabase();
+
+        try{
+            getCon();
+            useDatabase();
+            String sql = "DELETE FROM db_member WHERE id=?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,id);
+            pstmt.executeUpdate();
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }finally {
+            try{
+                if(pstmt!=null)pstmt.close();
+                if(con!=null) con.close();
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
     }
 }
